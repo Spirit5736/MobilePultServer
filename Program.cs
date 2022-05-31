@@ -78,25 +78,52 @@ Started listening requests at: {0}:{1}
                     byte[] buffer = new byte[bytesize];
                     string x = client.GetStream().Read(buffer, 0, bytesize).ToString();
                     var data = ASCIIEncoding.ASCII.GetString(buffer);
-                    if (data.ToUpper().Contains("SLP2"))
+                    switch (data)
                     {
-                        Console.WriteLine("Pc is going to Sleep Mode!" + " \n");
-                        Sleep();
+                        case string slp2 when data.Contains("SLP2"):
+                            Console.WriteLine("Pc is going to Sleep Mode!" + " \n");
+                            Sleep();
+                            break;
+                        case string shtd3 when data.Contains("SHTD3"):
+                            Console.WriteLine("Pc is going to Shutdown!" + " \n");
+                            Shutdown();
+                            break;
+                        case string tsc1 when data.Contains("TSC1"):
+                            Console.WriteLine("Take Screenshot!" + " \n");
+                            var bitmap = SaveScreenshot();
+                            var stream = new MemoryStream();
+                            bitmap.Save(stream, ImageFormat.Bmp);
+                            sendData(stream.ToArray(), client.GetStream());
+                            break;
+                        case string moreVolume when data.Contains("MRVLM4"):
+                            Console.WriteLine("More Volume" + " \n");
+                            VolumeChanger.VolumeUp();
+                            break;
+                        case string lessVolume when data.Contains("LSVLM5"):
+                            Console.WriteLine("Less Volume" + " \n");
+                            VolumeChanger.VolumeDown();
+                            break;
                     }
 
-                    else if (data.ToUpper().Contains("SHTD3"))
-                    {
-                        Console.WriteLine("Pc is going to Shutdown!" + " \n");
-                        Shutdown();
-                    }
-                    else if (data.ToUpper().Contains("TSC1"))
-                    {
-                        Console.WriteLine("Take Screenshot!" + " \n");
-                        var bitmap = SaveScreenshot();
-                        var stream = new MemoryStream();
-                        bitmap.Save(stream, ImageFormat.Bmp);
-                        sendData(stream.ToArray(), client.GetStream());
-                    }
+                    //if (data.ToUpper().Contains("SLP2"))
+                    //{
+                    //    Console.WriteLine("Pc is going to Sleep Mode!" + " \n");
+                    //    Sleep();
+                    //}
+
+                    //else if (data.ToUpper().Contains("SHTD3"))
+                    //{
+                    //    Console.WriteLine("Pc is going to Shutdown!" + " \n");
+                    //    Shutdown();
+                    //}
+                    //else if (data.ToUpper().Contains("TSC1"))
+                    //{
+                    //    Console.WriteLine("Take Screenshot!" + " \n");
+                    //    var bitmap = SaveScreenshot();
+                    //    var stream = new MemoryStream();
+                    //    bitmap.Save(stream, ImageFormat.Bmp);
+                    //    sendData(stream.ToArray(), client.GetStream());
+                    //}
                 }
                 catch (Exception ex)
                 {
