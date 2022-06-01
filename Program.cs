@@ -103,6 +103,10 @@ Started listening requests at: {0}:{1}
                             Console.WriteLine("Less Volume" + " \n");
                             VolumeChanger.VolumeDown();
                             break;
+                        case string lessVolume when data.Contains("MT6"):
+                            Console.WriteLine("Mute" + " \n");
+                            VolumeChanger.Mute();
+                            break;
                     }
 
                     //if (data.ToUpper().Contains("SLP2"))
