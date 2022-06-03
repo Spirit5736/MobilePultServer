@@ -61,12 +61,14 @@ namespace Mobile_Pult_ServerSide
 
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse(ipString), 1234);
             listener = new TcpListener(ep);
+           
             listener.Start();
             Console.WriteLine(@"  
 ===================================================  
 Started listening requests at: {0}:{1}  
 ===================================================",
             ep.Address, ep.Port);
+            link:
             client = listener.AcceptTcpClient();
             Console.WriteLine("Connected to client!" + " \n");
 
@@ -103,10 +105,15 @@ Started listening requests at: {0}:{1}
                             Console.WriteLine("Less Volume" + " \n");
                             VolumeChanger.VolumeDown();
                             break;
-                        case string lessVolume when data.Contains("MT6"):
+                        case string mute when data.Contains("MT6"):
                             Console.WriteLine("Mute" + " \n");
                             VolumeChanger.Mute();
                             break;
+                        case string exit when data.Contains("EXT7"):
+                            Console.WriteLine("Exit" + " \n");
+                            client.Close();
+                            goto link;
+
                     }
 
                     //if (data.ToUpper().Contains("SLP2"))
