@@ -3,11 +3,12 @@ using System.Runtime.InteropServices;
 
 namespace Mobile_Pult_ServerSide
 {
-    static class VolumeChanger
+    static class PlayerChanger
     {
         private const byte VK_VOLUME_MUTE = 0xAD;
         private const byte VK_VOLUME_DOWN = 0xAE;
         private const byte VK_VOLUME_UP = 0xAF;
+        private const byte VK_MEDIA_PLAY_PAUSE = 0xB3;
         private const UInt32 KEYEVENTF_EXTENDEDKEY = 0x0001;
         private const UInt32 KEYEVENTF_KEYUP = 0x0002;
 
@@ -33,6 +34,12 @@ namespace Mobile_Pult_ServerSide
         {
             keybd_event(VK_VOLUME_MUTE, MapVirtualKey(VK_VOLUME_MUTE, 0), KEYEVENTF_EXTENDEDKEY, 0);
             keybd_event(VK_VOLUME_MUTE, MapVirtualKey(VK_VOLUME_MUTE, 0), KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+        }
+
+        public static void Play()
+        {
+            keybd_event(VK_MEDIA_PLAY_PAUSE, MapVirtualKey(VK_MEDIA_PLAY_PAUSE, 0), KEYEVENTF_EXTENDEDKEY, 0);
+            keybd_event(VK_MEDIA_PLAY_PAUSE, MapVirtualKey(VK_MEDIA_PLAY_PAUSE, 0), KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
         }
     }
 }

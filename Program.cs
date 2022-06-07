@@ -99,15 +99,19 @@ Started listening requests at: {0}:{1}
                             break;
                         case string moreVolume when data.Contains("MRVLM4"):
                             Console.WriteLine("More Volume" + " \n");
-                            VolumeChanger.VolumeUp();
+                            PlayerChanger.VolumeUp();
                             break;
                         case string lessVolume when data.Contains("LSVLM5"):
                             Console.WriteLine("Less Volume" + " \n");
-                            VolumeChanger.VolumeDown();
+                            PlayerChanger.VolumeDown();
                             break;
                         case string mute when data.Contains("MT6"):
                             Console.WriteLine("Mute" + " \n");
-                            VolumeChanger.Mute();
+                            PlayerChanger.Mute();
+                            break;
+                        case string play when data.Contains("PLAY8"):
+                            Console.WriteLine("Play" + " \n");
+                            PlayerChanger.Play();
                             break;
                         case string exit when data.Contains("EXT7"):
                             Console.WriteLine("Exit" + " \n");
